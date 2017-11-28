@@ -13,6 +13,10 @@ URL_MINFIN = "http://index.minfin.com.ua/fuel/tm/"
 DIESEL_ID = "\u0414\u0422"
 DIESEL_PLUS_ID = DIESEL_ID + "+"
 FUEL_TYPES = ['A92', 'A95', 'A95plus', 'Diesel', 'LPG']
+A92="\u0410\xa092"
+A95="\u0410\xa095"
+A95plus="\u0410\xa095+"
+LPG="\u0421\u041f\u0411\u0422"
 
 
 class FuelPrice():
@@ -56,15 +60,15 @@ def getDataMinfin(http, url):
                     column_order.append('name')
                 elif header.contents[0].name == 'a':
                     ft = header.contents[0].contents[0]
-                    if ft == "\u0410\xa092":
+                    if ft == A92:
                         column_order.append(FUEL_TYPES[0])
-                    elif ft == "\u0410\xa095":
+                    elif ft == A95:
                         column_order.append(FUEL_TYPES[1])
-                    elif ft == "\u0410\xa095+":
+                    elif ft == A95plus:
                         column_order.append(FUEL_TYPES[2])
-                    elif ft == "\u0414\u0422":
+                    elif ft == DIESEL_ID:
                         column_order.append(FUEL_TYPES[3])
-                    elif ft == "\u0421\u041f\u0411\u0422":
+                    elif ft == LPG:
                         column_order.append(FUEL_TYPES[4])
                 else:
                     raise Exception('Cannot parse table header')
@@ -117,17 +121,23 @@ def getDataMinfin(http, url):
     return parsed_fuel_prices
 
 
-def computeAverage(fuel_type, prices):
-    sum = float(0)
-    count = 0
-    for price in prices:
-        sum += price.fuel_prices[fuel_type]
-        count +=1
-    return sum / count
+def computeAverage( prices):
+    avg = dict()
+    for ft in FUEL_TYPES:
+        sum = float(0)
+        count = 0
+        for price in prices:
+            p  = price.fuel_prices.get(ft, None)
+            if p:
+                sum += p
+                count +=1
+        avg[ft] = sum / count
+    return  avg
 
 def makeTableData(prices):
     # heading = (colored("Gas station", "white"), colored("Diesel", "blue"), colored("Diesel+", "cyan"))
-    heading = (colored("Gas station", "white"), colored("Diesel", "blue"))
+    heading = (colored("Gas station", "white"), colored(DIESEL_ID, "blue"),
+               colored(A92, "cyan"), colored(A95, "grey"), colored(A95plus,"magenta"), colored(LPG,"yellow"))
     tableData = [heading]
     # for fuelType in prices["fuel"]:
     #     if fuelType["Fuel"] == DIESEL_ID:
@@ -138,11 +148,14 @@ def makeTableData(prices):
     #         for station in fuelType["Stations"]:
     #             color = decideColor(float(station["Value"]), float(fuelType["Avg"]))
     #             tableData.append([colored(station["Name"], color), "-", colored(station["Value"], color)])
-    avg = computeAverage(FUEL_TYPES[3], prices)
+    avg = computeAverage(prices)
     for price in prices:
-        p = price.fuel_prices[FUEL_TYPES[3]]
-        color = decideColor(p, avg)
-        tableData.append([colored(price.brand, color), colored(p, color)])
+        row = [price.brand]
+        for ft in price.fuel_prices.keys():
+            p = price.fuel_prices[ft]
+            color = decideColor(p, avg[ft])
+            row.append(colored(p, color))
+        tableData.append(row)
 
     return tableData
 
