@@ -1,7 +1,7 @@
 Name:	python3-console-fuel
 Version: 0.3
 BuildArch: noarch
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary: Simple python 3 client to get fuel prices from minfin.com.ua
 
 Group:	Applications/Scripts
