@@ -136,8 +136,8 @@ def computeAverage( prices):
 
 def makeTableData(prices):
     # heading = (colored("Gas station", "white"), colored("Diesel", "blue"), colored("Diesel+", "cyan"))
-    heading = (colored("Gas station", "white"), colored(DIESEL_ID, "blue"),
-               colored(A92, "cyan"), A95, colored(A95plus,"magenta"), colored(LPG,"yellow"))
+    heading = (colored("Gas station", "white"), colored(A92, "cyan"),
+               A95, colored(A95plus,"magenta"), colored(DIESEL_ID, "blue"), colored(LPG,"yellow"))
     tableData = [heading]
     # for fuelType in prices["fuel"]:
     #     if fuelType["Fuel"] == DIESEL_ID:
