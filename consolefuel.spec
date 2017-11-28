@@ -1,7 +1,7 @@
 Name:	python3-console-fuel
 Version: 0.5
 BuildArch: noarch
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary: Simple python 3 client to get fuel prices from minfin.com.ua
 
 Group:	Applications/Scripts
@@ -40,6 +40,7 @@ ln -s %{_libdir}/python3.6/site-packages/console-fuel/fuelprice.py %{buildroot}%
 - Added petrol and LPG prices
 - Fixed missing fuel table shifting
 - Fixed order of the table heading
+- Updated shebang
 * Fri Nov 24 2017 Maksym Shkolnyi <maskimko@ukr.net> - 0.1
 - First packaging attempt
 
