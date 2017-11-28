@@ -1,8 +1,8 @@
 Name:	python3-console-fuel
-Version: 0.2
+Version: 0.3
 BuildArch: noarch
 Release:	1%{?dist}
-Summary: Simple python 3 client to get diesel prices from minfin.com.ua
+Summary: Simple python 3 client to get fuel prices from minfin.com.ua
 
 Group:	Applications/Scripts
 License: GPL v3
@@ -35,8 +35,9 @@ ln -s %{_libdir}/python3.6/site-packages/console-fuel/fuelprice.py %{buildroot}%
 
 
 %changelog
-* Tue Nov 28 2017 Maksym Shkolnyi <maskimko@ukr.net> - 0.2
+* Tue Nov 28 2017 Maksym Shkolnyi <maskimko@ukr.net> - 0.3
 - Switched to the data from minfin.com.ua
+- Added petrol and LPG prices
 * Fri Nov 24 2017 Maksym Shkolnyi <maskimko@ukr.net> - 0.1
 - First packaging attempt
 
