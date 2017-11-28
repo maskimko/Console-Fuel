@@ -151,10 +151,13 @@ def makeTableData(prices):
     avg = computeAverage(prices)
     for price in prices:
         row = [price.brand]
-        for ft in price.fuel_prices.keys():
-            p = price.fuel_prices[ft]
-            color = decideColor(p, avg[ft])
-            row.append(colored(p, color))
+        for ft in FUEL_TYPES:
+            p = price.fuel_prices.get(ft, '--')
+            if p != '--':
+                color = decideColor(p, avg[ft])
+                row.append(colored(p, color))
+            else:
+                row.append(p)
         tableData.append(row)
 
     return tableData
