@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 
 import json
 import urllib3
@@ -8,15 +8,15 @@ from terminaltables import AsciiTable
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
-URL_UKRNET = "https://www.ukr.net/ajax/fuel.json"
-URL_MINFIN = "http://index.minfin.com.ua/fuel/tm/"
-DIESEL_ID = "\u0414\u0422"
-DIESEL_PLUS_ID = DIESEL_ID + "+"
-FUEL_TYPES = ['A92', 'A95', 'A95plus', 'Diesel', 'LPG']
-A92="\u0410\xa092"
-A95="\u0410\xa095"
-A95plus="\u0410\xa095+"
-LPG="\u0421\u041f\u0411\u0422"
+URL_UKRNET = u"https://www.ukr.net/ajax/fuel.json"
+URL_MINFIN = u"http://index.minfin.com.ua/fuel/tm/"
+DIESEL_ID = u"\u0414\u0422"
+DIESEL_PLUS_ID = DIESEL_ID + u"+"
+FUEL_TYPES = [u'A92', u'A95', u'A95plus', u'Diesel', u'LPG']
+A92=u"\u0410\xa092"
+A95=u"\u0410\xa095"
+A95plus=u"\u0410\xa095+"
+LPG=u"\u0421\u041f\u0411\u0422"
 
 
 class FuelPrice():
@@ -37,7 +37,7 @@ def getDataUkrNet(http, url):
     return prices
 
 def getDataMinfin(http, url):
-    user_agent = "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0"
+    user_agent = u"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0"
     r = http.request('GET', url, headers={'user-agent': user_agent})
     soup = BeautifulSoup(r.data.decode('utf-8'), 'html.parser')
 
@@ -56,7 +56,7 @@ def getDataMinfin(http, url):
             header = headers[i]
             if header.name == 'th':
                 has_header = True
-                if header.contents[0] == "\u0422\u041c":
+                if header.contents[0] == u"\u0422\u041c":
                     column_order.append('name')
                 elif header.contents[0].name == 'a':
                     ft = header.contents[0].contents[0]
