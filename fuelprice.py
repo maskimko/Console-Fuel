@@ -16,7 +16,8 @@ FUEL_TYPES = ['A92', 'A95', 'A95plus', 'Diesel', 'LPG']
 A92="\u0410\xa092"
 A95="\u0410\xa095"
 A95plus="\u0410\xa095+"
-LPG="\u0421\u041f\u0411\u0422"
+LPG="\u0413\u0430\u0437" #"Газ"
+BRAND="\u041e\u043f\u0435\u0440\u0430\u0442\u043e\u0440" #"Оператор"
 
 
 class FuelPrice():
@@ -42,7 +43,7 @@ def getDataMinfin(http, url):
     soup = BeautifulSoup(r.data.decode('utf-8'), 'html.parser')
 
     def findContent(tag):
-        return tag.name == 'div' and tag.has_attr('id') and tag['id'] == 'content'
+        return tag.name == 'div' and tag.has_attr('id') and tag['id'] == 'tm-table'
 
     def findPriceTable(tag):
         return tag.name == 'table' and tag.has_attr('class') and 'zebra' in tag['class'] and findContent(tag.parent)
@@ -56,7 +57,7 @@ def getDataMinfin(http, url):
             header = headers[i]
             if header.name == 'th':
                 has_header = True
-                if header.contents[0] == "\u0422\u041c":
+                if str(header.contents[0].string) == BRAND:
                     column_order.append('name')
                 elif header.contents[0].name == 'a':
                     ft = header.contents[0].contents[0]
