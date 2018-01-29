@@ -18,6 +18,7 @@ A95="\u0410\xa095"
 A95plus="\u0410\xa095+"
 LPG="\u0413\u0430\u0437" #"Газ"
 BRAND="\u041e\u043f\u0435\u0440\u0430\u0442\u043e\u0440" #"Оператор"
+COLOR_MAP={BRAND:"white", A92:"cyan", A95:"grey", A95plus:"magenta",DIESEL_ID:"blue",LPG:"yellow"}
 
 
 class FuelPrice():
@@ -136,9 +137,9 @@ def computeAverage( prices):
     return  avg
 
 def makeTableData(prices):
-    # heading = (colored("Gas station", "white"), colored("Diesel", "blue"), colored("Diesel+", "cyan"))
-    heading = (colored("Gas station", "white"), colored(A92, "cyan"),
-               A95, colored(A95plus,"magenta"), colored(DIESEL_ID, "blue"), colored(LPG,"yellow"))
+    # heading = (colored("Gas station", "white"), colored(A92, "cyan"),
+    #            A95, colored(A95plus,"magenta"), colored(DIESEL_ID, "blue"), colored(LPG,"yellow"))
+    heading = [colored(br, col) for br, col in COLOR_MAP.items()]
     tableData = [heading]
     # for fuelType in prices["fuel"]:
     #     if fuelType["Fuel"] == DIESEL_ID:

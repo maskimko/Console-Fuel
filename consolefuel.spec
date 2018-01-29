@@ -1,5 +1,5 @@
 Name:	python3-console-fuel
-Version: 0.6
+Version: 0.7
 BuildArch: noarch
 Release:	3%{?dist}
 Summary: Simple python 3 client to get fuel prices from minfin.com.ua
@@ -35,6 +35,8 @@ ln -s %{_libdir}/python3.6/site-packages/console-fuel/fuelprice.py %{buildroot}%
 
 
 %changelog
+* Mon Jan 29 2018 Maksym Shkolnyi <maskimko@ukr.net> - 0.7
+- Fixed columns order
 * Mon Dec 18 2017 Maksym Shkolnyi <maskimko@ukr.net> - 0.6
 - Changes in the source interface
 * Tue Nov 28 2017 Maksym Shkolnyi <maskimko@ukr.net> - 0.4
