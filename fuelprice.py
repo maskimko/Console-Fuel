@@ -58,7 +58,6 @@ def get_data_minfin(http, url):
         while i < len(headers):
             header = headers[i]
             if header.name == 'th':
-                # has_header = True
                 if str(header.contents[0].string) == BRAND:
                     column_order.append('name')
                 elif header.contents[0].name == 'a':
@@ -110,7 +109,7 @@ def get_data_minfin(http, url):
                         if string_price == '<br/>':
                             col += 1
                             continue
-                        prices_dict[FUEL_TYPES[col-1]] = float(string_price.replace(',', '.'))
+                        prices_dict[column_order[col]] = float(string_price.replace(',', '.'))
                     col += 1
                 fuel_prices.append(FuelPrice(name, prices_dict))
                 j += 1
