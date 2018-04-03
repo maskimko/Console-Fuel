@@ -101,16 +101,22 @@ def get_data_minfin(http, url):
                 name = None
                 prices_dict = dict()
                 col = 0
+                # number of the html table column to parse
+                pcol = 0
                 while col < len(column_order):
                     if column_order[col] == 'name':
-                        name = tr.contents[col].contents[0].text
+                        name = tr.contents[pcol].contents[0].text
                     else:
-                        string_price = str(tr.contents[col].contents[0])
+                        string_price = str(tr.contents[pcol].contents[0])
                         if string_price == '<br/>':
-                            col += 1
+                            if tr.contents[pcol].attrs.get('style', None) == 'padding:3px':
+                                pcol += 1
+                            else:
+                                col += 1
                             continue
                         prices_dict[column_order[col]] = float(string_price.replace(',', '.'))
                     col += 1
+                    pcol += 1
                 fuel_prices.append(FuelPrice(name, prices_dict))
                 j += 1
         else:
@@ -131,7 +137,10 @@ def compute_average(fuel_prices):
             if p:
                 total += p
                 count += 1
-        avg[ft] = total / count
+        if count == 0:
+            avg[ft] = '--'
+        else:
+            avg[ft] = total / count
     return avg
 
 
@@ -155,10 +164,11 @@ def make_table_data(fuel_prices):
 
 def decide_color(average, value):
     color = "grey"
-    if value > average:
-        color = "green"
-    elif value < average:
-        color = "red"
+    if average != '--':
+        if value > average:
+            color = "green"
+        elif value < average:
+            color = "red"
     return color
 
 
