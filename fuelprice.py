@@ -107,14 +107,20 @@ def get_data_minfin(http, url):
                     if column_order[col] == 'name':
                         name = tr.contents[pcol].contents[0].text
                     else:
-                        string_price = str(tr.contents[pcol].contents[0])
-                        if string_price == '<br/>':
-                            if tr.contents[pcol].attrs.get('style', None) == 'padding:3px':
+                        if type(tr.contents[pcol].contents[0]) is Tag:
+                            current_tag = tr.contents[pcol].contents[0]
+                            if current_tag.name == 'br':
+                                if tr.contents[pcol].attrs.get('style', None) != 'padding:3px':
+                                    col += 1
                                 pcol += 1
-                            else:
-                                col += 1
-                            continue
-                        prices_dict[column_order[col]] = float(string_price.replace(',', '.'))
+                                continue
+                            attr_list = current_tag.attrs.get('class', None)
+                            if attr_list and attr_list[0] == 'discount-bullet':
+                                pcol += 1
+                                continue
+                        else:
+                            string_price = str(tr.contents[pcol].contents[0])
+                            prices_dict[column_order[col]] = float(string_price.replace(',', '.'))
                     col += 1
                     pcol += 1
                 fuel_prices.append(FuelPrice(name, prices_dict))
